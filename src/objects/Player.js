@@ -1,4 +1,4 @@
-import LevelRestart from './LevelRestart';
+// import LevelRestart from './LevelRestart';
 
 class Player {
 
@@ -22,13 +22,20 @@ class Player {
 
     this.game.physics.arcade.enable(this.sprite);
 
+    this.sprite.body.onCollide = new Phaser.Signal();
+    
+
     graphics.destroy();
 
     this.update = this.update.bind(this);
   }
 
+  getSprite() {
+    return this.sprite;
+  }
+
   update(x, y) {
-    console.log(this.sprite)
+    //console.log(this.sprite)
     // console.log(angle);
     // console.log(velocity)
 
@@ -36,8 +43,8 @@ class Player {
 
     // this.sprite.body.moves = false;
 
-    this.sprite.body.velocity.x = x;
-    this.sprite.body.velocity.y = y;
+    this.sprite.x = this.x - (x * 3) ^ 0.5;
+    this.sprite.y = this.y - (y * 3) ^ 0.5;
     this.sprite.body.angularVelocity = 0;
 
     // this.game.physics.arcade.velocityFromAngle(this.sprite.angle, this.sprite.body.velocity, this.sprite.body.velocity);

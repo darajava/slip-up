@@ -147,12 +147,12 @@
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 347);
+/******/ 	return __webpack_require__(__webpack_require__.s = 336);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 347:
+/***/ 336:
 /*!******************************************!*\
   !*** multi pixi p2 phaser webfontloader ***!
   \******************************************/
@@ -160,15 +160,15 @@
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! pixi */348);
-__webpack_require__(/*! p2 */350);
-__webpack_require__(/*! phaser */352);
-module.exports = __webpack_require__(/*! webfontloader */355);
+__webpack_require__(/*! pixi */337);
+__webpack_require__(/*! p2 */339);
+__webpack_require__(/*! phaser */341);
+module.exports = __webpack_require__(/*! webfontloader */344);
 
 
 /***/ }),
 
-/***/ 348:
+/***/ 337:
 /*!*************************************************************!*\
   !*** ./node_modules/phaser-ce/build/custom/pixi.js-exposed ***!
   \*************************************************************/
@@ -176,12 +176,12 @@ module.exports = __webpack_require__(/*! webfontloader */355);
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["PIXI"] = __webpack_require__(/*! -!./pixi.js */ 349);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["PIXI"] = __webpack_require__(/*! -!./pixi.js */ 338);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 46)))
 
 /***/ }),
 
-/***/ 349:
+/***/ 338:
 /*!*****************************************************!*\
   !*** ./node_modules/phaser-ce/build/custom/pixi.js ***!
   \*****************************************************/
@@ -7762,7 +7762,7 @@ PIXI.TextureUvs = function()
 
 /***/ }),
 
-/***/ 350:
+/***/ 339:
 /*!***********************************************************!*\
   !*** ./node_modules/phaser-ce/build/custom/p2.js-exposed ***!
   \***********************************************************/
@@ -7770,12 +7770,12 @@ PIXI.TextureUvs = function()
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["p2"] = __webpack_require__(/*! -!./p2.js */ 351);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["p2"] = __webpack_require__(/*! -!./p2.js */ 340);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 46)))
 
 /***/ }),
 
-/***/ 351:
+/***/ 340:
 /*!***************************************************!*\
   !*** ./node_modules/phaser-ce/build/custom/p2.js ***!
   \***************************************************/
@@ -21424,7 +21424,7 @@ World.prototype.raycast = function(result, ray){
 
 /***/ }),
 
-/***/ 352:
+/***/ 341:
 /*!*********************************************************************!*\
   !*** ./node_modules/phaser-ce/build/custom/phaser-split.js-exposed ***!
   \*********************************************************************/
@@ -21432,12 +21432,12 @@ World.prototype.raycast = function(result, ray){
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["Phaser"] = __webpack_require__(/*! -!./phaser-split.js */ 353);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["Phaser"] = __webpack_require__(/*! -!./phaser-split.js */ 342);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 46)))
 
 /***/ }),
 
-/***/ 353:
+/***/ 342:
 /*!*************************************************************!*\
   !*** ./node_modules/phaser-ce/build/custom/phaser-split.js ***!
   \*************************************************************/
@@ -107870,11 +107870,11 @@ PIXI.canUseNewCanvasBlendModes = function () {
 * "What matters in this life is not what we do but what we do for others, the legacy we leave and the imprint we make." - Eric Meyer
 */
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../process/browser.js */ 354)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../process/browser.js */ 343)))
 
 /***/ }),
 
-/***/ 354:
+/***/ 343:
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
   \*****************************************/
@@ -108070,7 +108070,7 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 355:
+/***/ 344:
 /*!*****************************************************!*\
   !*** ./node_modules/webfontloader/webfontloader.js ***!
   \*****************************************************/

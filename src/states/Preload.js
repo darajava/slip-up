@@ -2,11 +2,13 @@ class Preload extends Phaser.State {
 
   preload() {
     /* Preload required assets */
-    this.game.load.image('road', '../static/assets/road.jpg');
+    this.game.load.image('road', '../static/assets/background.jpg');
+    
+    this.game.load.audio('coin', '../static/assets/coin.wav');
 
     // Todo: rename
 
-    this.game.add.text(0, 0, '',  { font: "900 86px Raleway", fill: '#000' });
+    // this.game.add.text(0, 0, '',  { font: "900 86px Raleway", fill: '#000' });
   }
 
   create() {
@@ -17,3 +19,4 @@ class Preload extends Phaser.State {
 }
 
 export default Preload;
+ 

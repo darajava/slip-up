@@ -1,4 +1,4 @@
-import Background from '../objects/Background';
+// import Background from '../objects/Background';
 import Player from '../objects/Player';
 import Controls from '../objects/Controls';
 
@@ -6,8 +6,8 @@ class Main extends Phaser.State {
 
   create() {
     //Enable Arcade Physics
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.densityFactor = window.devicePixelRatio / 3;
+    // this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    // this.densityFactor = window.devicePixelRatio / 3;
 
     // let levelWidth = this.game.width * 5;
 

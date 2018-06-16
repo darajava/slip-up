@@ -45,7 +45,7 @@ class Controls {
 
 
     let angle = Math.atan2(this.y - this.sprite.y, this.x - this.sprite.x) * 180 / Math.PI;
-    this.updateOutput(-(this.x - this.sprite.x) * 4, -(this.y - this.sprite.y) * 4);
+    this.updateOutput(this.x - this.sprite.x, this.y - this.sprite.y);
 
   }
 
