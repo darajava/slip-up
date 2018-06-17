@@ -6,6 +6,7 @@ class Preload extends Phaser.State {
     
     this.game.load.audio('coin', '../static/assets/coin.wav');
     this.game.load.audio('lose', '../static/assets/lose.mp3');
+    this.game.load.audio('bomb', '../static/assets/bomb.wav');
 
     // Todo: rename
 

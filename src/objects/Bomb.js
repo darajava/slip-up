@@ -20,7 +20,7 @@ class Bomb {
 
     this.game.physics.arcade.enable(this.sprite);
 
-    this.sprite.body.velocity.y = 300;
+    this.sprite.body.velocity.y = 0;
 
     graphics.destroy();
 
@@ -38,7 +38,7 @@ class Bomb {
     s2.kill();
     s2.body.velocity.y = 0;
 
-    this.game.sound.play('Bomb');
+    this.game.sound.play('bomb');
   }
 
   getSprite() {

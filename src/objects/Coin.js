@@ -31,11 +31,9 @@ class Coin {
   }
 
   hitSprite(s1, s2) {
-    console.log('hit')
-    console.log(s1)
-    console.log(s2)
+
         // console.log('collisionHandler')
-    this.sprite.destroy();
+    this.sprite.kill();
     s2.body.velocity.y = 0;
 
     this.game.sound.play('coin');
