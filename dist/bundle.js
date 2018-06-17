@@ -4259,7 +4259,7 @@ class Player {
 
     let graphics = game.add.graphics(0, 0);
 
-    let col = 0xcabaaf;
+    let col = 0xdacabf;
     if (this.x < this.game.width / 2) {
       col = 0x586A6A;
     }
@@ -11165,9 +11165,9 @@ class Coin {
     this.sprite.kill();
     s2.body.velocity.y = 0;
 
-    if (typeof window.navigator !== 'undefined') {
-      window.navigator.vibrate(10);
-    }
+    // if (typeof window.navigator !== 'undefined') {
+    //   window.navigator.vibrate(10)
+    // }
 
     this.game.sound.play('coin' + Math.floor(Math.random() * 5 + 1));
 

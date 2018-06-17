@@ -12,7 +12,7 @@ class Player {
 
     let graphics = game.add.graphics(0, 0);
 
-    let col = 0xcabaaf;
+    let col = 0xdacabf;
     if (this.x < this.game.width / 2) {
       col = 0x586A6A;
     }

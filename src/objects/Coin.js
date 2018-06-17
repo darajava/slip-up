@@ -41,9 +41,9 @@ class Coin {
     this.sprite.kill();
     s2.body.velocity.y = 0;
 
-    if (typeof window.navigator !== 'undefined') {
-      window.navigator.vibrate(10)
-    }
+    // if (typeof window.navigator !== 'undefined') {
+    //   window.navigator.vibrate(10)
+    // }
 
     this.game.sound.play('coin' + Math.floor(Math.random() * 5 + 1));
 
