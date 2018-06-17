@@ -5,6 +5,12 @@ class Preload extends Phaser.State {
     this.game.load.image('road', '../static/assets/road.jpg');
     
     this.game.load.audio('coin', '../static/assets/coin.wav');
+    this.game.load.audio('coin1', '../static/assets/coin1.wav');
+    this.game.load.audio('coin2', '../static/assets/coin2.wav');
+    this.game.load.audio('coin3', '../static/assets/coin3.wav');
+    this.game.load.audio('coin4', '../static/assets/coin4.wav');
+    this.game.load.audio('coin5', '../static/assets/coin5.wav');
+    
     this.game.load.audio('lose', '../static/assets/lose.mp3');
     this.game.load.audio('bomb', '../static/assets/bomb.wav');
 

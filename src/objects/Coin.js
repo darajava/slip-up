@@ -10,10 +10,15 @@ class Coin {
 
     let graphics = game.add.graphics(0, 0);
 
-    graphics.beginFill(0x007700, 1);
+    let col = 0xdacabf;
+    if (x < this.game.width / 2) {
+      col = 0x586A6A;
+    }
+
+    graphics.beginFill(col, 1);
     graphics.drawCircle(x, y, circleSize + borderSize);
-    graphics.beginFill(0x00ff00, 1);
-    graphics.drawCircle(x, y, circleSize);
+    // graphics.beginFill(col, 1);
+    // graphics.drawCircle(x, y, circleSize);
 
     this.sprite = game.add.sprite(x, y, graphics.generateTexture());
     this.sprite.anchor.setTo(0.5, 0.5);
@@ -36,7 +41,11 @@ class Coin {
     this.sprite.kill();
     s2.body.velocity.y = 0;
 
-    this.game.sound.play('coin');
+    if (typeof window.navigator !== 'undefined') {
+      window.navigator.vibrate(10)
+    }
+
+    this.game.sound.play('coin' + Math.floor(Math.random() * 5 + 1));
 
     console.log()
   }

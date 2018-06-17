@@ -10,10 +10,10 @@ class Bomb {
 
     let graphics = game.add.graphics(0, 0);
 
-    graphics.beginFill(0x770000, 1);
+    graphics.beginFill(0xbb0000, 1);
     graphics.drawCircle(x, y, circleSize + borderSize);
-    graphics.beginFill(0xff0000, 1);
-    graphics.drawCircle(x, y, circleSize);
+    // graphics.beginFill(0xff0000, 1);
+    // graphics.drawCircle(x, y, circleSize);
 
     this.sprite = game.add.sprite(x, y, graphics.generateTexture());
     this.sprite.anchor.setTo(0.5, 0.5);
@@ -37,8 +37,6 @@ class Bomb {
         // console.log('collisionHandler')
     s2.kill();
     s2.body.velocity.y = 0;
-
-    this.game.sound.play('bomb');
   }
 
   getSprite() {

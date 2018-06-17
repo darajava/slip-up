@@ -12,10 +12,15 @@ class Player {
 
     let graphics = game.add.graphics(0, 0);
 
-    graphics.beginFill(0x000099, 1);
+    let col = 0xcabaaf;
+    if (this.x < this.game.width / 2) {
+      col = 0x586A6A;
+    }
+
+    graphics.beginFill(col, 1);
     graphics.drawCircle(xy[0], xy[1], circleSize + borderSize);
-    graphics.beginFill(0x0000FF, 1);
-    graphics.drawCircle(xy[0], xy[1], circleSize);
+    // graphics.beginFill(0x818D92, 1);
+    // graphics.drawCircle(xy[0], xy[1], circleSize);
 
     this.sprite = game.add.sprite(xy[0], xy[1], graphics.generateTexture());
     this.sprite.anchor.setTo(0.5, 0.5);

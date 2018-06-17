@@ -15,11 +15,16 @@ class Controls {
 
     let graphics = game.add.graphics(0, 0);
 
-    graphics.beginFill(0x000099, 1);
+    if (this.x < this.game.width / 2) {
+      graphics.beginFill(0x818D92, 1);
+    }
+    else {
+      graphics.beginFill(0xcabaaf, 1);
+    }
 
     graphics.drawCircle(xy[0], xy[1], this.circleSize + borderSize);
-    graphics.beginFill(0x0000ff, 1);
-    graphics.drawCircle(xy[0], xy[1], this.circleSize);
+    // graphics.beginFill(0x0000ff, 1);
+    // graphics.drawCircle(xy[0], xy[1], this.circleSize);
 
     this.sprite = game.add.sprite(xy[0], xy[1], graphics.generateTexture());
     this.sprite.inputEnabled = true;
