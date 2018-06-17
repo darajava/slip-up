@@ -12,9 +12,9 @@ class Player {
 
     let graphics = game.add.graphics(0, 0);
 
-    graphics.beginFill(0x990000, 1);
+    graphics.beginFill(0x000099, 1);
     graphics.drawCircle(xy[0], xy[1], circleSize + borderSize);
-    graphics.beginFill(0xFF0000, 1);
+    graphics.beginFill(0x0000FF, 1);
     graphics.drawCircle(xy[0], xy[1], circleSize);
 
     this.sprite = game.add.sprite(xy[0], xy[1], graphics.generateTexture());
@@ -43,8 +43,10 @@ class Player {
 
     // this.sprite.body.moves = false;
 
-    this.sprite.x = this.x - (x * 3) ^ 0.5;
-    this.sprite.y = this.y - (y * 3) ^ 0.5;
+
+
+    this.sprite.x = Phaser.Math.clamp(this.x - (x * 3) ^ 0.5, this.x - this.game.width / 4, this.x + this.game.width / 4);
+    this.sprite.y = Phaser.Math.clamp(this.y - (y * 3) ^ 0.5, 0, this.game.height / 3 * 2);
     this.sprite.body.angularVelocity = 0;
 
     // this.game.physics.arcade.velocityFromAngle(this.sprite.angle, this.sprite.body.velocity, this.sprite.body.velocity);

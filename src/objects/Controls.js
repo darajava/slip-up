@@ -10,19 +10,21 @@ class Controls {
     this.x = xy[0];
     this.y = xy[1];
 
-    let circleSize = 200;
+    this.circleSize = 200;
     let borderSize = 20;
 
     let graphics = game.add.graphics(0, 0);
 
-    graphics.beginFill(0x990000, 1);
-    graphics.drawCircle(xy[0], xy[1], circleSize + borderSize);
-    graphics.beginFill(0xFF0000, 1);
-    graphics.drawCircle(xy[0], xy[1], circleSize);
+    graphics.beginFill(0x000099, 1);
+
+    graphics.drawCircle(xy[0], xy[1], this.circleSize + borderSize);
+    graphics.beginFill(0x0000ff, 1);
+    graphics.drawCircle(xy[0], xy[1], this.circleSize);
 
     this.sprite = game.add.sprite(xy[0], xy[1], graphics.generateTexture());
     this.sprite.inputEnabled = true;
     this.sprite.input.enableDrag();
+    this.sprite.input.setDragLock(true, false);
     this.sprite.anchor.setTo(0.5, 0.5);
 
     this.sprite.events.onDragStop.add(this.onDragStop, this);
@@ -35,13 +37,14 @@ class Controls {
   onDragStop() {
     this.sprite.x = this.x;
     this.sprite.y = this.y;
-    this.updateOutput(0, 0);
-
-
+    this.updateOutput(0, 0);    
   }
 
   onDragUpdate() {
     // console.log('[' + Math.abs(this.x - this.sprite.x) + ',' + Math.abs(this.y - this.sprite.y) + ']');
+
+    this.sprite.x = Phaser.Math.clamp(this.sprite.x, this.x - this.circleSize / 2, this.x + this.circleSize / 2);
+    this.sprite.y = Phaser.Math.clamp(this.sprite.y, this.y - this.circleSize, this.y + this.circleSize);
 
 
     let angle = Math.atan2(this.y - this.sprite.y, this.x - this.sprite.x) * 180 / Math.PI;

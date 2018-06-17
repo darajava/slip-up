@@ -21,17 +21,37 @@ function readLines(input, func) {
   });
 }
 
-let game1 = [];
-let game2 = [];
+let coin1 = [];
+let coin2 = [];
+let bomb1 = [];
+let bomb2 = [];
+
+function valuesOf(str, char) {
+  let result = [];
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === char) {
+      result.push(i);
+    }
+  }
+
+  return result;
+}
 
 function func(data) {
-  game1.push(data.split('|')[0].indexOf('x'));
-  game2.push(data.split('|')[1].indexOf('x'));
+  if (data.indexOf('//') !== -1) return;
+  
+  coin1.push(valuesOf(data.split('|')[0], 'x'));
+  coin2.push(valuesOf(data.split('|')[1], 'x'));
+  bomb1.push(valuesOf(data.split('|')[0], 'c'));
+  bomb2.push(valuesOf(data.split('|')[1], 'c'));
 }
 
 var input = fs.createReadStream('levelmap');
 readLines(input, func);
 setTimeout(() => {
-  console.log('this.coins1 = ' + JSON.stringify(game1.reverse()) + ';');  
-  console.log('this.coins2 = ' + JSON.stringify(game2.reverse()) + ';');  
-}, 100);
+  console.log('this.coins1 = ' + JSON.stringify(coin1.reverse()) + ';');  
+  console.log('this.coins2 = ' + JSON.stringify(coin2.reverse()) + ';');  
+  console.log('this.bombs1 = ' + JSON.stringify(bomb1.reverse()) + ';');  
+  console.log('this.bombs2 = ' + JSON.stringify(bomb2.reverse()) + ';');  
+}, 500);

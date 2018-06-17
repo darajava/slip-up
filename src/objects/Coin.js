@@ -20,7 +20,7 @@ class Coin {
 
     this.game.physics.arcade.enable(this.sprite);
 
-    this.sprite.body.velocity.y = 500;
+    // this.sprite.body.velocity.y = 300;
 
     graphics.destroy();
 
@@ -35,10 +35,12 @@ class Coin {
     console.log(s1)
     console.log(s2)
         // console.log('collisionHandler')
-    this.sprite.kill();
+    this.sprite.destroy();
     s2.body.velocity.y = 0;
 
     this.game.sound.play('coin');
+
+    console.log()
   }
 
   getSprite() {
@@ -50,7 +52,7 @@ class Coin {
   }
 
   update() {
-    this.game.physics.arcade.collide(this.sprite, this.player);
+    console.log(this.sprite.y);
 
   }
 

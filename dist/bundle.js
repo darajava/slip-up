@@ -4259,9 +4259,9 @@ class Player {
 
     let graphics = game.add.graphics(0, 0);
 
-    graphics.beginFill(0x990000, 1);
+    graphics.beginFill(0x000099, 1);
     graphics.drawCircle(xy[0], xy[1], circleSize + borderSize);
-    graphics.beginFill(0xFF0000, 1);
+    graphics.beginFill(0x0000FF, 1);
     graphics.drawCircle(xy[0], xy[1], circleSize);
 
     this.sprite = game.add.sprite(xy[0], xy[1], graphics.generateTexture());
@@ -4289,8 +4289,9 @@ class Player {
 
     // this.sprite.body.moves = false;
 
-    this.sprite.x = this.x - x * 3 ^ 0.5;
-    this.sprite.y = this.y - y * 3 ^ 0.5;
+
+    this.sprite.x = Phaser.Math.clamp(this.x - x * 3 ^ 0.5, this.x - this.game.width / 4, this.x + this.game.width / 4);
+    this.sprite.y = Phaser.Math.clamp(this.y - y * 3 ^ 0.5, 0, this.game.height / 3 * 2);
     this.sprite.body.angularVelocity = 0;
 
     // this.game.physics.arcade.velocityFromAngle(this.sprite.angle, this.sprite.body.velocity, this.sprite.body.velocity);
@@ -4320,19 +4321,21 @@ class Controls {
     this.x = xy[0];
     this.y = xy[1];
 
-    let circleSize = 200;
+    this.circleSize = 200;
     let borderSize = 20;
 
     let graphics = game.add.graphics(0, 0);
 
-    graphics.beginFill(0x990000, 1);
-    graphics.drawCircle(xy[0], xy[1], circleSize + borderSize);
-    graphics.beginFill(0xFF0000, 1);
-    graphics.drawCircle(xy[0], xy[1], circleSize);
+    graphics.beginFill(0x000099, 1);
+
+    graphics.drawCircle(xy[0], xy[1], this.circleSize + borderSize);
+    graphics.beginFill(0x0000ff, 1);
+    graphics.drawCircle(xy[0], xy[1], this.circleSize);
 
     this.sprite = game.add.sprite(xy[0], xy[1], graphics.generateTexture());
     this.sprite.inputEnabled = true;
     this.sprite.input.enableDrag();
+    this.sprite.input.setDragLock(true, false);
     this.sprite.anchor.setTo(0.5, 0.5);
 
     this.sprite.events.onDragStop.add(this.onDragStop, this);
@@ -4350,6 +4353,8 @@ class Controls {
   onDragUpdate() {
     // console.log('[' + Math.abs(this.x - this.sprite.x) + ',' + Math.abs(this.y - this.sprite.y) + ']');
 
+    this.sprite.x = Phaser.Math.clamp(this.sprite.x, this.x - this.circleSize / 2, this.x + this.circleSize / 2);
+    this.sprite.y = Phaser.Math.clamp(this.sprite.y, this.y - this.circleSize, this.y + this.circleSize);
 
     let angle = Math.atan2(this.y - this.sprite.y, this.x - this.sprite.x) * 180 / Math.PI;
     this.updateOutput(this.x - this.sprite.x, this.y - this.sprite.y);
@@ -10807,9 +10812,10 @@ class Preload extends Phaser.State {
 
   preload() {
     /* Preload required assets */
-    this.game.load.image('road', '../static/assets/background.jpg');
+    this.game.load.image('road', '../static/assets/road.jpg');
 
     this.game.load.audio('coin', '../static/assets/coin.wav');
+    this.game.load.audio('lose', '../static/assets/lose.mp3');
 
     // Todo: rename
 
@@ -10891,7 +10897,9 @@ class Main extends Phaser.State {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__objects_Player__ = __webpack_require__(/*! ../../objects/Player */ 125);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__objects_Controls__ = __webpack_require__(/*! ../../objects/Controls */ 126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__objects_Coin__ = __webpack_require__(/*! ../../objects/Coin */ 335);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__objects_Bomb__ = __webpack_require__(/*! ../../objects/Bomb */ 336);
 // import Background from '../../objects/Background';
+
 
 
 
@@ -10905,52 +10913,84 @@ class Level1 extends Phaser.State {
 
   create() {
     // this.game.world.scale.set(window.devicePixelRatio);
-
-    let midX = window.innerWidth / 2;
+    this.game.stage.backgroundColor = "#fff";
+    this.midX = window.innerWidth / 2;
     let midY = window.innerHeight / 2;
     let bottomY = window.innerHeight / 3 * 2;
+    this.plusPixels = 0;
 
-    this.background = this.game.add.tileSprite(0, 0, 600, 100, 'road');
-    this.background.height = bottomY;
+    // this.background = this.game.add.tileSprite(0, 0, 600, 100, 'road');
+    // this.background.height = bottomY;
     // this.background.width = 600;
 
-    this.background.scale.x = this.game.width / this.background.width;
+    // this.background.scale.x = (this.game.width / this.background.width);
+    this.time = new Date();
 
-    this.line1 = new Phaser.Line(midX, 0, midX, window.innerHeight);
+    this.line1 = new Phaser.Line(this.midX, 0, this.midX, window.innerHeight);
     this.line2 = new Phaser.Line(0, bottomY, window.innerWidth, bottomY);
 
-    this.joysticks = [[midX / 2, (window.innerHeight + bottomY) / 2], [midX / 2 * 3, (window.innerHeight + bottomY) / 2]];
+    this.joysticks = [[this.midX / 2, (window.innerHeight + bottomY) / 2], [this.midX / 2 * 3, (window.innerHeight + bottomY) / 2]];
 
-    this.drawLine(new Phaser.Line(this.joysticks[0][0], this.joysticks[0][1], this.joysticks[1][0], this.joysticks[1][1]));
-
-    this.players = [new __WEBPACK_IMPORTED_MODULE_0__objects_Player__["a" /* default */](this.game, [midX / 2, midY]), new __WEBPACK_IMPORTED_MODULE_0__objects_Player__["a" /* default */](this.game, [midX / 2 * 3, midY])];
+    this.players = [new __WEBPACK_IMPORTED_MODULE_0__objects_Player__["a" /* default */](this.game, [this.midX / 2, midY]), new __WEBPACK_IMPORTED_MODULE_0__objects_Player__["a" /* default */](this.game, [this.midX / 2 * 3, midY])];
 
     this.controls = [new __WEBPACK_IMPORTED_MODULE_1__objects_Controls__["a" /* default */](this.game, this.joysticks[0], this.players[0].update), new __WEBPACK_IMPORTED_MODULE_1__objects_Controls__["a" /* default */](this.game, this.joysticks[1], this.players[1].update)];
 
     // these lines generated by parseLevel.js
-    this.coins1 = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 6, 7, 7, 6, 5, 4, 3, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 7, 6, 5, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1, 2, 3, 4, 5, 6, 7];
-    this.coins2 = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7];
-
-    let step = 100;
+    this.coins1 = [[4], [4], [4], [4], [4], [4], [4], [4], [4], [4], [5], [6], [7], [7], [6], [5], [4], [3], [2], [3], [4], [5], [6], [5], [4], [3], [2], [3], [4], [5], [6], [4], [2], [4], [6], [4], [2], [], [], [], [4], [4], [4], [4], [4], [4], [4], [4], [4], [4], [5], [6], [7], [7], [6], [5], [4], [3], [2], [3], [4], [5], [6], [5], [4], [3], [2], [3], [4], [5], [6], [4], [2], [4], [6], [4], [2], [4], [6], [6], [], [], [], [], [], [7], [6], [5], [4], [3], [2], [2], [3], [4], [5], [6], [7], [7], [6], [5], [4], [3], [2], [2], [3], [4], [5], [6], [7], [7], [6], [5], [4], [3], [2], [2], [3], [4], [5], [6], [7], [7], [6], [5], [4], [4], [4], [4], [4], [4], [4], [], [], [], [], [], [], [], [], [], [], [], [], [], [4], [4], [4], [4], [4], [4], [3], [5], [6], [5], [4], [5, 6], [6], [5], [4], [3], [3], [5], [5], [4], [3], [4], [5], [4], [4], [4], [4], [4], [], [], [], [], [], [], [], [], [], [], [1, 7], [], [], [], [], [], [], [], [], [], [2, 3, 4, 5, 6], [], [], [], [2, 3, 4, 5, 6], [], [], [], [], [], [], [7], [7], [7], [7], [4, 5, 6, 7], [7], [7], [7], [7], [7], [7], [3, 4, 5, 6, 7], [7], [7], [7], [7], [2, 3, 4, 5, 6, 7], [7], []];
+    this.coins2 = [[4], [4], [4], [4], [4], [4], [4], [4], [4], [4], [3], [2], [1], [1], [2], [3], [4], [5], [6], [5], [4], [3], [2], [3], [4], [5], [6], [5], [4], [3], [2], [4], [6], [4], [2], [4], [6], [], [], [], [4], [4], [4], [4], [4], [4], [4], [4], [4], [4], [3], [2], [1], [1], [2], [3], [4], [5], [6], [5], [4], [3], [2], [4], [6], [4], [2], [4], [6], [6], [6], [4], [2], [4], [6], [4], [2], [4], [6], [6], [], [], [], [], [], [6], [4], [2], [4], [6], [4], [2], [4], [6], [4], [2], [4], [6], [4], [2], [4], [6], [4], [2], [4], [6], [4], [2], [4], [6], [4], [2], [4], [6], [4], [2], [4], [6], [4], [2], [2], [2], [3], [4], [4], [4], [4], [4], [4], [4], [4], [], [], [], [], [], [], [], [], [], [], [], [], [], [4], [4], [4], [4], [4], [4], [5], [3], [4], [5], [6], [7], [1], [2], [3], [4], [5], [6], [7], [7], [7], [6], [5], [4], [4], [4], [4], [4], [], [], [], [], [], [], [1, 7], [], [], [], [], [], [], [], [], [2, 3, 4, 5, 6], [], [], [], [], [], [], [], [], [2, 3, 4, 5, 6], [], [], [], [], [], [], [1], [1], [1], [1], [1], [1], [1], [1, 2, 3, 4], [1], [1], [1], [1, 2, 3, 4, 5], [1], [1], [1], [1, 2, 3, 4, 5, 6], [1], [1], []];
+    this.bombs1 = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
+    this.bombs2 = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
 
     this.group = this.game.add.physicsGroup();
 
-    for (let i = 0; i < this.coins1.length; i++) {
-      this.group.add(new __WEBPACK_IMPORTED_MODULE_2__objects_Coin__["a" /* default */](this.game, this.coins1[i] * (midX / 9), -(i * step), this.players[0]).getSprite());
+    this.limit = 10;
+    this.lastCoinGenerated = this.limit;
+
+    for (let i = 0; i < this.limit; i++) {
+      this.addCoin(i, this.coins1[i]);
     }
 
-    for (let i = 0; i < this.coins2.length; i++) {
-      this.group.add(new __WEBPACK_IMPORTED_MODULE_2__objects_Coin__["a" /* default */](this.game, this.coins2[i] * (midX / 9) + midX, -(i * step), this.players[0]).getSprite());
+    for (let i = 0; i < this.limit; i++) {
+      this.addCoin(i, this.coins2[i], true);
+    }
+
+    for (let i = 0; i < this.bombs1.length; i++) {
+      this.addBomb(i, this.bombs1[i]);
+    }
+
+    for (let i = 0; i < this.bombs2.length; i++) {
+      this.addBomb(i, this.bombs2[i], true);
     }
 
     this.drawLine(this.line1);
     this.drawLine(this.line2);
+
+    // this.addCoinToGroup = this.addCoinToGroup.bind(this)
+  }
+
+  addCoin(y, coinArr, player2) {
+    let step = 80;
+    let timePassed = (new Date() - this.time) / 1000;
+
+    console.log(timePassed * 300);
+    for (let i = 0; i < coinArr.length; i++) {
+      let coin = new __WEBPACK_IMPORTED_MODULE_2__objects_Coin__["a" /* default */](this.game, 27 + coinArr[i] * (this.midX / 9) + (player2 ? this.midX : 0), -(y * step) + this.plusPixels, this.players[0]).getSprite();
+
+      coin.inputEnabled = true;
+      this.group.add(coin);
+    }
+  }
+
+  addBomb(y, bombArr, player2) {
+    let step = 80;
+
+    for (let i = 0; i < bombArr.length; i++) this.group.add(new __WEBPACK_IMPORTED_MODULE_3__objects_Bomb__["a" /* default */](this.game, bombArr[i] * (this.midX / 9) + (player2 ? this.midX : 0), -(y * step), this.players[0]).getSprite());
   }
 
   drawLine(line) {
     let graphics = this.game.add.graphics(0, 0);
     //var graphics=game.add.graphics(line.start.x,line.start.y);//if you have a static line
-    graphics.lineStyle(10, 0xffd900, 1);
+    graphics.lineStyle(10, 0x000000, 1);
     graphics.moveTo(line.start.x, line.start.y); //moving position of graphic if you draw mulitple lines
     graphics.lineTo(line.end.x, line.end.y);
     graphics.endFill();
@@ -10963,7 +11003,18 @@ class Level1 extends Phaser.State {
 
     this.game.physics.arcade.collide(this.players[1].getSprite(), this.group, this.collisionHandler, this.processHandler, this);
 
-    this.background.tilePosition.y += 10;
+    for (let i = 0; i < this.group.children.length; i++) {
+      this.group.children[i].body.position.y += 5;
+
+      if (this.group.children[i].body.position.y > this.game.height) {
+        this.game.state.start("Level1");
+        this.game.sound.play("lose");
+        this.group.remove(this.group.children[i]);
+        // this.collisionHandler();
+      }
+    }
+
+    this.plusPixels += 5;
   }
 
   processHandler(player, coin) {
@@ -10971,9 +11022,14 @@ class Level1 extends Phaser.State {
   }
 
   collisionHandler(player, coin) {
-    console.log('collisionHandler');
-    coin.kill();
-    player.body.velocity.y = 0;
+    // console.log('collisionHandler')
+    // coin.kill();
+    // player.body.velocity.y = 0;
+    // console.log('len', this.group.length);
+
+
+    if (this.coins1[this.lastCoinGenerated]) this.addCoin(this.lastCoinGenerated, this.coins1[this.lastCoinGenerated]);
+    if (this.coins2[this.lastCoinGenerated]) this.addCoin(this.lastCoinGenerated, this.coins2[this.lastCoinGenerated++], true);
   }
 
 }
@@ -11012,7 +11068,7 @@ class Coin {
 
     this.game.physics.arcade.enable(this.sprite);
 
-    this.sprite.body.velocity.y = 500;
+    // this.sprite.body.velocity.y = 300;
 
     graphics.destroy();
 
@@ -11027,10 +11083,79 @@ class Coin {
     console.log(s1);
     console.log(s2);
     // console.log('collisionHandler')
-    this.sprite.kill();
+    this.sprite.destroy();
     s2.body.velocity.y = 0;
 
     this.game.sound.play('coin');
+
+    console.log();
+  }
+
+  getSprite() {
+    return this.sprite;
+  }
+
+  popUp() {}
+
+  update() {
+    console.log(this.sprite.y);
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Coin);
+
+/***/ }),
+/* 336 */
+/*!*****************************!*\
+  !*** ./src/objects/Bomb.js ***!
+  \*****************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Bomb {
+
+  constructor(game, x, y, player) {
+    this.game = game;
+    this.x = x;
+    this.y = y;
+
+    let circleSize = 20;
+    let borderSize = 30;
+
+    let graphics = game.add.graphics(0, 0);
+
+    graphics.beginFill(0x770000, 1);
+    graphics.drawCircle(x, y, circleSize + borderSize);
+    graphics.beginFill(0xff0000, 1);
+    graphics.drawCircle(x, y, circleSize);
+
+    this.sprite = game.add.sprite(x, y, graphics.generateTexture());
+    this.sprite.anchor.setTo(0.5, 0.5);
+
+    this.game.physics.arcade.enable(this.sprite);
+
+    this.sprite.body.velocity.y = 300;
+
+    graphics.destroy();
+
+    this.sprite.body.onCollide = new Phaser.Signal();
+    this.sprite.body.onCollide.add(this.hitSprite, this);
+
+    this.update = this.update.bind(this);
+  }
+
+  hitSprite(s1, s2) {
+    console.log('hit');
+    console.log(s1);
+    console.log(s2);
+    // console.log('collisionHandler')
+    s2.kill();
+    s2.body.velocity.y = 0;
+
+    this.game.sound.play('Bomb');
   }
 
   getSprite() {
@@ -11045,7 +11170,7 @@ class Coin {
 
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Coin);
+/* harmony default export */ __webpack_exports__["a"] = (Bomb);
 
 /***/ })
 ],[127]);

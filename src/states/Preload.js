@@ -2,9 +2,10 @@ class Preload extends Phaser.State {
 
   preload() {
     /* Preload required assets */
-    this.game.load.image('road', '../static/assets/background.jpg');
+    this.game.load.image('road', '../static/assets/road.jpg');
     
     this.game.load.audio('coin', '../static/assets/coin.wav');
+    this.game.load.audio('lose', '../static/assets/lose.mp3');
 
     // Todo: rename
 
