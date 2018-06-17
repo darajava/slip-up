@@ -48,12 +48,16 @@ class Coin {
     if (this.x < this.game.width / 2) {
       console.log(this.x);
       console.log(this.game.width);
-      this.game.sound.play('bass' + Math.floor(Math.random() * 6 + 1));
+      this.game.sound.play('bass' + this.getX(this.x));
     } else {
-      this.game.sound.play('treb' + Math.floor(Math.random() * 6 + 1));
+      this.game.sound.play('treb' + this.getX(this.x - this.game.width / 2));
     }
 
     console.log()
+  }
+
+  getX(x) {
+    return (Math.round((x - 27) / (this.game.width / 2 / 9)) % 6) + 1;
   }
 
   getSprite() {
