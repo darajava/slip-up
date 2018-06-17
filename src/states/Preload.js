@@ -10,7 +10,21 @@ class Preload extends Phaser.State {
     this.game.load.audio('coin3', '../static/assets/coin3.wav');
     this.game.load.audio('coin4', '../static/assets/coin4.wav');
     this.game.load.audio('coin5', '../static/assets/coin5.wav');
-    
+
+    this.game.load.audio('bass1', '../static/assets/bass1.wav');
+    this.game.load.audio('bass2', '../static/assets/bass2.wav');
+    this.game.load.audio('bass3', '../static/assets/bass3.wav');
+    this.game.load.audio('bass4', '../static/assets/bass4.wav');
+    this.game.load.audio('bass5', '../static/assets/bass5.wav');
+    this.game.load.audio('bass6', '../static/assets/bass6.wav');
+
+    this.game.load.audio('treb1', '../static/assets/treb1.wav');
+    this.game.load.audio('treb2', '../static/assets/treb2.wav');
+    this.game.load.audio('treb3', '../static/assets/treb3.wav');
+    this.game.load.audio('treb4', '../static/assets/treb4.wav');
+    this.game.load.audio('treb5', '../static/assets/treb5.wav');
+    this.game.load.audio('treb6', '../static/assets/treb6.wav');
+
     this.game.load.audio('lose', '../static/assets/lose.mp3');
     this.game.load.audio('bomb', '../static/assets/bomb.wav');
 

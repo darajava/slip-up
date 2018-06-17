@@ -45,7 +45,13 @@ class Coin {
     //   window.navigator.vibrate(10)
     // }
 
-    this.game.sound.play('coin' + Math.floor(Math.random() * 5 + 1));
+    if (this.x < this.game.width / 2) {
+      console.log(this.x);
+      console.log(this.game.width);
+      this.game.sound.play('bass' + Math.floor(Math.random() * 6 + 1));
+    } else {
+      this.game.sound.play('treb' + Math.floor(Math.random() * 6 + 1));
+    }
 
     console.log()
   }

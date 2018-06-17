@@ -10830,6 +10830,20 @@ class Preload extends Phaser.State {
     this.game.load.audio('coin4', '../static/assets/coin4.wav');
     this.game.load.audio('coin5', '../static/assets/coin5.wav');
 
+    this.game.load.audio('bass1', '../static/assets/bass1.wav');
+    this.game.load.audio('bass2', '../static/assets/bass2.wav');
+    this.game.load.audio('bass3', '../static/assets/bass3.wav');
+    this.game.load.audio('bass4', '../static/assets/bass4.wav');
+    this.game.load.audio('bass5', '../static/assets/bass5.wav');
+    this.game.load.audio('bass6', '../static/assets/bass6.wav');
+
+    this.game.load.audio('treb1', '../static/assets/treb1.wav');
+    this.game.load.audio('treb2', '../static/assets/treb2.wav');
+    this.game.load.audio('treb3', '../static/assets/treb3.wav');
+    this.game.load.audio('treb4', '../static/assets/treb4.wav');
+    this.game.load.audio('treb5', '../static/assets/treb5.wav');
+    this.game.load.audio('treb6', '../static/assets/treb6.wav');
+
     this.game.load.audio('lose', '../static/assets/lose.mp3');
     this.game.load.audio('bomb', '../static/assets/bomb.wav');
 
@@ -11169,7 +11183,13 @@ class Coin {
     //   window.navigator.vibrate(10)
     // }
 
-    this.game.sound.play('coin' + Math.floor(Math.random() * 5 + 1));
+    if (this.x < this.game.width / 2) {
+      console.log(this.x);
+      console.log(this.game.width);
+      this.game.sound.play('bass' + Math.floor(Math.random() * 6 + 1));
+    } else {
+      this.game.sound.play('treb' + Math.floor(Math.random() * 6 + 1));
+    }
 
     console.log();
   }
