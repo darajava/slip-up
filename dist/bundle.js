@@ -10951,6 +10951,19 @@ class Level1 extends Phaser.State {
     this.drawRect(0, this.game.height / 3 * 2, this.game.width / 2, this.game.height / 3, 0xB9A394, 0.5);
     this.drawRect(this.game.width / 2, this.game.height / 3 * 2, this.game.width / 2, this.game.height / 3, 0x586A6A, 0.5);
 
+    this.score = 0;
+    this.scoreDesc = this.addText('score', '#acb5b5', this.game.width / 2, 0, true);
+    this.scoreText = this.addText(this.score, '#dcd1ca', this.game.width / 2, 0, false);
+
+    this.hiScoreDesc = this.addText('high', '#acb5b5', this.game.width / 2, 70, true, true);
+    this.hiScoreText = this.addText('', '#dcd1ca', this.game.width / 2, 70, false, true);
+
+    if (!localStorage.getItem('highscore')) {
+      localStorage.setItem('highscore', 0);
+    }
+
+    this.hiScoreText.text = parseInt(localStorage.getItem('highscore'));
+
     this.midX = window.innerWidth / 2;
     let midY = window.innerHeight / 2;
     let bottomY = window.innerHeight / 3 * 2;
@@ -11001,6 +11014,26 @@ class Level1 extends Phaser.State {
     }
 
     // this.addCoinRowToGroup = this.addCoinRowToGroup.bind(this)
+  }
+
+  addText(text, colour, x, y, left, small) {
+    let font = small ? '33' : '55';
+
+    let textObject = this.game.add.text(x, y, text, {
+      font: font + "px Raleway",
+      fill: colour,
+      align: "right"
+    });
+
+    if (left) {
+      textObject.anchor.setTo(1, 0);
+      textObject.x -= 10;
+    } else {
+      textObject.anchor.setTo(0, 0);
+      textObject.x += 10;
+    }
+
+    return textObject;
   }
 
   addCoinRow(y, coinArr, player2) {
@@ -11098,6 +11131,13 @@ class Level1 extends Phaser.State {
     // player.body.velocity.y = 0;
     // console.log('len', this.group.length);
 
+    this.score++;
+    if (parseInt(localStorage.getItem('highscore')) < this.score) {
+      localStorage.setItem('highscore', this.score);
+    }
+
+    this.scoreText.text = this.score;
+    this.hiScoreText.text = localStorage.getItem('highscore');
   }
 
   addNewDot() {
