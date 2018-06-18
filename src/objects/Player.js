@@ -24,8 +24,13 @@ class Player {
 
     this.sprite = game.add.sprite(xy[0], xy[1], graphics.generateTexture());
     this.sprite.anchor.setTo(0.5, 0.5);
+    this.sprite.scale.setTo(0.11, 0.11);
 
+    this.sprite.loadTexture('emoji0');
+    this.sprite.angle = 180;
     this.game.physics.arcade.enable(this.sprite);
+
+
 
     this.sprite.body.onCollide = new Phaser.Signal();
     

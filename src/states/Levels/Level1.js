@@ -27,8 +27,8 @@ class Level1 extends Phaser.State {
     this.scoreDesc = this.addText('score', '#acb5b5', this.game.width / 2, 0, true);
     this.scoreText = this.addText(this.score, '#dcd1ca', this.game.width / 2, 0, false);
 
-    this.hiScoreDesc = this.addText('high', '#acb5b5', this.game.width / 2, 70, true, true);
-    this.hiScoreText = this.addText('', '#dcd1ca', this.game.width / 2, 70, false, true);
+    this.hiScoreDesc = this.addText('high', '#acb5b5', this.game.width / 2, 78, true, true);
+    this.hiScoreText = this.addText('', '#dcd1ca', this.game.width / 2, 78, false, true);
 
     if (!localStorage.getItem('highscore')) {
       localStorage.setItem('highscore', 0);
@@ -107,7 +107,7 @@ this.bombs2 = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
   }
 
   addText(text, colour, x, y, left, small) {
-    let font = small ? '33' : '55';
+    let font = small ? '44' : '66';
 
     let textObject = this.game.add.text(x, y, text, {
         font: font + "px Raleway",
@@ -140,7 +140,7 @@ this.bombs2 = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
           27 + coinArr[i] * (this.midX / 9) + (player2 ? this.midX : 0),
           (-(y * step)) + this.plusPixels,
           this.players[0],
-        ).getSprite();
+        );
 
       coin.inputEnabled = true;
       this.group.add(coin);
@@ -158,7 +158,7 @@ this.bombs2 = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
           27 + bombArr[i] * (this.midX / 9) + (player2 ? this.midX : 0),
           -(y * step),
           this.players[0]
-        ).getSprite()
+        )
       );
   }
 
@@ -210,11 +210,10 @@ this.bombs2 = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
       }
     }
 
-    console.log('groupLength', this.getCoinAmount());
     for (let i = 0; i < this.group.children.length; i++) {
 
       // Check if it's not a bomb
-      if (this.group.children[i].body.width > 50 && this.group.children[i].body.position.y > this.game.height / 3 * 2) {
+      if (this.group.children[i].isCoin() && this.group.children[i].outOfBounds()) {
         this.game.state.start("Level1");
         this.game.sound.play('lose');
 
@@ -240,7 +239,7 @@ this.bombs2 = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
     let coinAmount = 0;
 
     for (let i = 0; i < this.group.children.length; i++) {
-      if (this.group.children[i].body.width > 50) coinAmount++;
+      if (this.group.children[i].isCoin()) coinAmount++;
     }
 
     return coinAmount;

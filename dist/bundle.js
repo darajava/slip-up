@@ -4271,7 +4271,10 @@ class Player {
 
     this.sprite = game.add.sprite(xy[0], xy[1], graphics.generateTexture());
     this.sprite.anchor.setTo(0.5, 0.5);
+    this.sprite.scale.setTo(0.11, 0.11);
 
+    this.sprite.loadTexture('emoji0');
+    this.sprite.angle = 180;
     this.game.physics.arcade.enable(this.sprite);
 
     this.sprite.body.onCollide = new Phaser.Signal();
@@ -10821,28 +10824,30 @@ class Preload extends Phaser.State {
 
   preload() {
     /* Preload required assets */
-    this.game.load.image('road', '../static/assets/road.jpg');
+    this.game.load.image('emoji0', '../static/assets/0.png');
+    this.game.load.image('emoji1', '../static/assets/1.png');
+    this.game.load.image('emoji2', '../static/assets/2.png');
+    this.game.load.image('emoji3', '../static/assets/3.png');
+    this.game.load.image('emoji4', '../static/assets/4.png');
+    this.game.load.image('emoji5', '../static/assets/5.png');
+    this.game.load.image('emoji6', '../static/assets/6.png');
+    this.game.load.image('emoji7', '../static/assets/7.png');
 
-    this.game.load.audio('coin', '../static/assets/coin.wav');
-    this.game.load.audio('coin1', '../static/assets/coin1.wav');
-    this.game.load.audio('coin2', '../static/assets/coin2.wav');
-    this.game.load.audio('coin3', '../static/assets/coin3.wav');
-    this.game.load.audio('coin4', '../static/assets/coin4.wav');
-    this.game.load.audio('coin5', '../static/assets/coin5.wav');
+    this.game.load.image('bomb', '../static/assets/bomb.png');
 
-    this.game.load.audio('bass1', '../static/assets/bass1.wav');
-    this.game.load.audio('bass2', '../static/assets/bass2.wav');
-    this.game.load.audio('bass3', '../static/assets/bass3.wav');
-    this.game.load.audio('bass4', '../static/assets/bass4.wav');
-    this.game.load.audio('bass5', '../static/assets/bass5.wav');
-    this.game.load.audio('bass6', '../static/assets/bass6.wav');
+    // this.game.load.audio('bass1', '../static/assets/bass1.wav');
+    // this.game.load.audio('bass2', '../static/assets/bass2.wav');
+    // this.game.load.audio('bass3', '../static/assets/bass3.wav');
+    // this.game.load.audio('bass4', '../static/assets/bass4.wav');
+    // this.game.load.audio('bass5', '../static/assets/bass5.wav');
+    // this.game.load.audio('bass6', '../static/assets/bass6.wav');
 
-    this.game.load.audio('treb1', '../static/assets/treb1.wav');
-    this.game.load.audio('treb2', '../static/assets/treb2.wav');
-    this.game.load.audio('treb3', '../static/assets/treb3.wav');
-    this.game.load.audio('treb4', '../static/assets/treb4.wav');
-    this.game.load.audio('treb5', '../static/assets/treb5.wav');
-    this.game.load.audio('treb6', '../static/assets/treb6.wav');
+    // this.game.load.audio('treb1', '../static/assets/treb1.wav');
+    // this.game.load.audio('treb2', '../static/assets/treb2.wav');
+    // this.game.load.audio('treb3', '../static/assets/treb3.wav');
+    // this.game.load.audio('treb4', '../static/assets/treb4.wav');
+    // this.game.load.audio('treb5', '../static/assets/treb5.wav');
+    // this.game.load.audio('treb6', '../static/assets/treb6.wav');
 
     this.game.load.audio('lose', '../static/assets/lose.mp3');
     this.game.load.audio('bomb', '../static/assets/bomb.wav');
@@ -10955,8 +10960,8 @@ class Level1 extends Phaser.State {
     this.scoreDesc = this.addText('score', '#acb5b5', this.game.width / 2, 0, true);
     this.scoreText = this.addText(this.score, '#dcd1ca', this.game.width / 2, 0, false);
 
-    this.hiScoreDesc = this.addText('high', '#acb5b5', this.game.width / 2, 70, true, true);
-    this.hiScoreText = this.addText('', '#dcd1ca', this.game.width / 2, 70, false, true);
+    this.hiScoreDesc = this.addText('high', '#acb5b5', this.game.width / 2, 78, true, true);
+    this.hiScoreText = this.addText('', '#dcd1ca', this.game.width / 2, 78, false, true);
 
     if (!localStorage.getItem('highscore')) {
       localStorage.setItem('highscore', 0);
@@ -11017,7 +11022,7 @@ class Level1 extends Phaser.State {
   }
 
   addText(text, colour, x, y, left, small) {
-    let font = small ? '33' : '55';
+    let font = small ? '44' : '66';
 
     let textObject = this.game.add.text(x, y, text, {
       font: font + "px Raleway",
@@ -11043,7 +11048,7 @@ class Level1 extends Phaser.State {
     if (typeof coinArr === 'undefined') return;
 
     for (let i = 0; i < coinArr.length; i++) {
-      let coin = new __WEBPACK_IMPORTED_MODULE_2__objects_Coin__["a" /* default */](this.game, 27 + coinArr[i] * (this.midX / 9) + (player2 ? this.midX : 0), -(y * step) + this.plusPixels, this.players[0]).getSprite();
+      let coin = new __WEBPACK_IMPORTED_MODULE_2__objects_Coin__["a" /* default */](this.game, 27 + coinArr[i] * (this.midX / 9) + (player2 ? this.midX : 0), -(y * step) + this.plusPixels, this.players[0]);
 
       coin.inputEnabled = true;
       this.group.add(coin);
@@ -11053,7 +11058,7 @@ class Level1 extends Phaser.State {
   addBomb(y, bombArr, player2) {
     let step = 80;
 
-    for (let i = 0; i < bombArr.length; i++) this.group.add(new __WEBPACK_IMPORTED_MODULE_3__objects_Bomb__["a" /* default */](this.game, 27 + bombArr[i] * (this.midX / 9) + (player2 ? this.midX : 0), -(y * step), this.players[0]).getSprite());
+    for (let i = 0; i < bombArr.length; i++) this.group.add(new __WEBPACK_IMPORTED_MODULE_3__objects_Bomb__["a" /* default */](this.game, 27 + bombArr[i] * (this.midX / 9) + (player2 ? this.midX : 0), -(y * step), this.players[0]));
   }
 
   drawLine(line) {
@@ -11087,11 +11092,10 @@ class Level1 extends Phaser.State {
       }
     }
 
-    console.log('groupLength', this.getCoinAmount());
     for (let i = 0; i < this.group.children.length; i++) {
 
       // Check if it's not a bomb
-      if (this.group.children[i].body.width > 50 && this.group.children[i].body.position.y > this.game.height / 3 * 2) {
+      if (this.group.children[i].isCoin() && this.group.children[i].outOfBounds()) {
         this.game.state.start("Level1");
         this.game.sound.play('lose');
 
@@ -11115,7 +11119,7 @@ class Level1 extends Phaser.State {
     let coinAmount = 0;
 
     for (let i = 0; i < this.group.children.length; i++) {
-      if (this.group.children[i].body.width > 50) coinAmount++;
+      if (this.group.children[i].isCoin()) coinAmount++;
     }
 
     return coinAmount;
@@ -11176,12 +11180,14 @@ class Level1 extends Phaser.State {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-class Coin {
+class Coin extends Phaser.Sprite {
 
   constructor(game, x, y, player) {
+    super(game, x, y);
+
     this.game = game;
-    this.x = x;
-    this.y = y;
+    // this.x = x;
+    // this.y = y;
 
     let circleSize = 30;
     let borderSize = 30;
@@ -11198,40 +11204,44 @@ class Coin {
     // graphics.beginFill(col, 1);
     // graphics.drawCircle(x, y, circleSize);
 
-    this.sprite = game.add.sprite(x, y, graphics.generateTexture());
-    this.sprite.anchor.setTo(0.5, 0.5);
+    // this.sprite = game.add.sprite(x, y, graphics.generateTexture());
+    this.anchor.setTo(0.5, 0.5);
+    this.scale.setTo(0.1, 0.1);
 
-    this.game.physics.arcade.enable(this.sprite);
+    // this.loadTexture(graphics.generateTexture())
+    this.loadTexture('emoji1');
+    this.game.physics.arcade.enable(this);
+
+    // this.game.add.sprite(x, y, graphics.generateTexture());
 
     // this.sprite.body.velocity.y = 300;
 
     graphics.destroy();
 
-    this.sprite.body.onCollide = new Phaser.Signal();
-    this.sprite.body.onCollide.add(this.hitSprite, this);
+    this.body.onCollide = new Phaser.Signal();
+    this.body.onCollide.add(this.hitSprite, this);
 
     this.update = this.update.bind(this);
   }
 
   hitSprite(s1, s2) {
+    this.stopChanging = true;
 
     // console.log('collisionHandler')
-    this.sprite.kill();
+    this.loadTexture('emoji7');
+
+    setTimeout(() => this.kill(), 100);
     s2.body.velocity.y = 0;
 
-    // if (typeof window.navigator !== 'undefined') {
-    //   window.navigator.vibrate(10)
-    // }
-
-    if (this.x < this.game.width / 2) {
-      console.log(this.x);
-      console.log(this.game.width);
-      this.game.sound.play('bass' + this.getX(this.x));
-    } else {
-      this.game.sound.play('treb' + this.getX(this.x - this.game.width / 2));
+    if ("vibrate" in window) {
+      window.navigator.vibrate(10);
     }
 
-    console.log();
+    // if (this.x < this.game.width / 2) {
+    //   this.game.sound.play('bass' + this.getX(this.x));
+    // } else {
+    //   this.game.sound.play('treb' + this.getX(this.x - this.game.width / 2));
+    // }
   }
 
   getX(x) {
@@ -11239,13 +11249,41 @@ class Coin {
   }
 
   getSprite() {
-    return this.sprite;
+    return this;
   }
 
   popUp() {}
 
+  outOfBounds() {
+    return this.body.position.y + this.height > this.game.height / 3 * 2;
+  }
+
+  isBomb() {
+    return false;
+  }
+
+  isCoin() {
+    return true;
+  }
+
+  changeEmoji() {
+    if (this.stopChanging) return;
+
+    if (this.y > this.game.height / 2) {
+      this.loadTexture('emoji6');
+    } else if (this.y > this.game.height / 3) {
+      this.loadTexture('emoji3');
+      // } else if (this.y > this.game.height / 4) {
+      //   this.loadTexture('emoji4');
+      // } else if (this.y > this.game.height / 5) {
+      //   this.loadTexture('emoji3');
+    } else if (this.y > this.game.height / 6) {
+      this.loadTexture('emoji2');
+    }
+  }
+
   update() {
-    console.log(this.sprite.y);
+    this.changeEmoji();
   }
 
 }
@@ -11262,12 +11300,14 @@ class Coin {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-class Bomb {
+class Bomb extends Phaser.Sprite {
 
   constructor(game, x, y, player) {
+    super(game, x, y);
+
     this.game = game;
-    this.x = x;
-    this.y = y;
+    // this.x = x;
+    // this.y = y;
 
     let circleSize = 20;
     let borderSize = 30;
@@ -11279,17 +11319,20 @@ class Bomb {
     // graphics.beginFill(0xff0000, 1);
     // graphics.drawCircle(x, y, circleSize);
 
-    this.sprite = game.add.sprite(x, y, graphics.generateTexture());
-    this.sprite.anchor.setTo(0.5, 0.5);
+    // this.sprite = game.add.sprite(x, y, graphics.generateTexture());
+    this.anchor.setTo(0.5, 0.5);
+    this.scale.setTo(0.09, 0.09);
 
-    this.game.physics.arcade.enable(this.sprite);
+    this.game.physics.arcade.enable(this);
 
-    this.sprite.body.velocity.y = 0;
+    this.body.velocity.y = 0;
+    // this.loadTexture(graphics.generateTexture())
+    this.loadTexture('bomb');
 
     graphics.destroy();
 
-    this.sprite.body.onCollide = new Phaser.Signal();
-    this.sprite.body.onCollide.add(this.hitSprite, this);
+    this.body.onCollide = new Phaser.Signal();
+    this.body.onCollide.add(this.hitSprite, this);
 
     this.update = this.update.bind(this);
   }
@@ -11309,8 +11352,24 @@ class Bomb {
 
   popUp() {}
 
+  isBomb() {
+    return !false;
+  }
+
+  isCoin() {
+    return !true;
+  }
+
   update() {
-    this.game.physics.arcade.collide(this.sprite, this.player);
+    let fadeTime = 300;
+
+    if (this.body.position.y + this.height > this.game.height / 3 * 2) {
+      // this.game.add.tween(this).to( { alpha: 0 }, fadeTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
+
+      // setTimeout(() => {
+      this.destroy();
+      // }, fadeTime);
+    }
   }
 
 }

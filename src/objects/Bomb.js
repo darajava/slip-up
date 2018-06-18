@@ -1,9 +1,11 @@
-class Bomb {
+class Bomb extends Phaser.Sprite {
 
-  constructor(game, x, y, player){
+  constructor(game, x, y, player) {
+    super(game, x, y)
+
     this.game = game;
-    this.x = x;
-    this.y = y;
+    // this.x = x;
+    // this.y = y;
 
     let circleSize = 20;
     let borderSize = 30;
@@ -15,17 +17,20 @@ class Bomb {
     // graphics.beginFill(0xff0000, 1);
     // graphics.drawCircle(x, y, circleSize);
 
-    this.sprite = game.add.sprite(x, y, graphics.generateTexture());
-    this.sprite.anchor.setTo(0.5, 0.5);
+    // this.sprite = game.add.sprite(x, y, graphics.generateTexture());
+    this.anchor.setTo(0.5, 0.5);
+    this.scale.setTo(0.09, 0.09);
 
-    this.game.physics.arcade.enable(this.sprite);
+    this.game.physics.arcade.enable(this);
 
-    this.sprite.body.velocity.y = 0;
+    this.body.velocity.y = 0;
+    // this.loadTexture(graphics.generateTexture())
+    this.loadTexture('bomb');
 
     graphics.destroy();
 
-    this.sprite.body.onCollide = new Phaser.Signal();
-    this.sprite.body.onCollide.add(this.hitSprite, this);
+    this.body.onCollide = new Phaser.Signal();
+    this.body.onCollide.add(this.hitSprite, this);
 
     this.update = this.update.bind(this);
   }
@@ -47,9 +52,24 @@ class Bomb {
    
   }
 
-  update() {
-    this.game.physics.arcade.collide(this.sprite, this.player);
+  isBomb() {
+    return !false;
+  }
 
+  isCoin() {
+    return !true;
+  }
+
+  update() {
+    let fadeTime = 300;
+
+    if (this.body.position.y + this.height > this.game.height / 3 * 2) {
+      // this.game.add.tween(this).to( { alpha: 0 }, fadeTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
+
+      // setTimeout(() => {
+        this.destroy();
+      // }, fadeTime);
+    }
   }
 
 }
