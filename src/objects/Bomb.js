@@ -19,13 +19,12 @@ class Bomb extends Phaser.Sprite {
 
     // this.sprite = game.add.sprite(x, y, graphics.generateTexture());
     this.anchor.setTo(0.5, 0.5);
-    this.scale.setTo(0.09, 0.09);
+    // this.scale.setTo(0.09, 0.09);
 
     this.game.physics.arcade.enable(this);
 
     this.body.velocity.y = 0;
-    // this.loadTexture(graphics.generateTexture())
-    this.loadTexture('bomb');
+    this.loadTexture(graphics.generateTexture())
 
     graphics.destroy();
 

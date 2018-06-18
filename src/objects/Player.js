@@ -1,11 +1,13 @@
 // import LevelRestart from './LevelRestart';
 
-class Player {
+class Player extends Phaser.Sprite {
 
-  constructor(game, xy){
+  constructor(game, x, y){
+    super(game, x, y);
     this.game = game;
-    this.x = xy[0];
-    this.y = xy[1];
+
+    this.xStart = x;
+    this.yStart = y;
 
     let circleSize = 20;
     let borderSize = 20;
@@ -18,21 +20,18 @@ class Player {
     }
 
     graphics.beginFill(col, 1);
-    graphics.drawCircle(xy[0], xy[1], circleSize + borderSize);
+    graphics.drawCircle(x, y, circleSize + borderSize);
     // graphics.beginFill(0x818D92, 1);
     // graphics.drawCircle(xy[0], xy[1], circleSize);
 
-    this.sprite = game.add.sprite(xy[0], xy[1], graphics.generateTexture());
-    this.sprite.anchor.setTo(0.5, 0.5);
-    this.sprite.scale.setTo(0.11, 0.11);
 
-    this.sprite.loadTexture('emoji0');
-    this.sprite.angle = 180;
-    this.game.physics.arcade.enable(this.sprite);
+    this.loadTexture(graphics.generateTexture())
 
+    // this = game.add.sprite(xy[0], xy[1], graphics.generateTexture());
+    this.anchor.setTo(0.5, 0.5);
 
-
-    this.sprite.body.onCollide = new Phaser.Signal();
+    this.game.physics.arcade.enable(this);
+    this.body.onCollide = new Phaser.Signal();
     
 
     graphics.destroy();
@@ -40,26 +39,24 @@ class Player {
     this.update = this.update.bind(this);
   }
 
-  getSprite() {
-    return this.sprite;
-  }
-
-  update(x, y) {
-    //console.log(this.sprite)
+  updatePos(x, y) {
+    //console.log(this)
     // console.log(angle);
     // console.log(velocity)
 
-    // this.sprite.angle = angle;
+    // this.angle = angle;
 
-    // this.sprite.body.moves = false;
+    // this.body.moves = false;
 
+    // x = x / 2;
 
+    console.log(x);
 
-    this.sprite.x = Phaser.Math.clamp(this.x - (x * 3) ^ 0.5, this.x - this.game.width / 4, this.x + this.game.width / 4);
-    this.sprite.y = Phaser.Math.clamp(this.y - (y * 3) ^ 0.5, 0, this.game.height / 3 * 2);
-    this.sprite.body.angularVelocity = 0;
+    this.x = x;//Phaser.Math.clamp(this.x - x, this.xStart - this.game.width / 4, this.xStart + this.game.width / 4);
+    // this.y = Phaser.Math.clamp(this.y - (y ) ^ 0.5, 0, this.game.height / 3 * 2);
+    // this.body.angularVelocity = 0;
 
-    // this.game.physics.arcade.velocityFromAngle(this.sprite.angle, this.sprite.body.velocity, this.sprite.body.velocity);
+    // this.game.physics.arcade.velocityFromAngle(this.angle, this.body.velocity, this.body.velocity);
   }
 
 

@@ -1,14 +1,16 @@
-class Controls {
+class Controls extends Phaser.Sprite {
 
 
 
   constructor(game, xy, updateOutput) {
+    super(game, xy[0], xy[1]);
+
     this.game = game;
 
     this.updateOutput = updateOutput;
 
-    this.x = xy[0];
-    this.y = xy[1];
+    this.xStart = xy[0];
+    this.yStart = xy[1];
 
     this.circleSize = 200;
     let borderSize = 20;
@@ -23,37 +25,39 @@ class Controls {
     }
 
     graphics.drawCircle(xy[0], xy[1], this.circleSize + borderSize);
-    // graphics.beginFill(0x0000ff, 1);
-    // graphics.drawCircle(xy[0], xy[1], this.circleSize);
 
-    this.sprite = game.add.sprite(xy[0], xy[1], graphics.generateTexture());
-    this.sprite.inputEnabled = true;
-    this.sprite.input.enableDrag();
-    this.sprite.input.setDragLock(true, false);
-    this.sprite.anchor.setTo(0.5, 0.5);
 
-    this.sprite.events.onDragStop.add(this.onDragStop, this);
-    this.sprite.events.onDragUpdate.add(this.onDragUpdate, this);
+    this.inputEnabled = true;
+    this.input.enableDrag();
+    this.input.setDragLock(true, false);
+    this.anchor.setTo(0.5, 0.5);
 
+    this.loadTexture(graphics.generateTexture())
+
+    // this.events.onDragStart.add(this.onDragStart, this);
+    this.events.onDragStop.add(this.onDragStop, this);
+    this.events.onDragUpdate.add(this.onDragUpdate, this);
+
+    this.game.physics.arcade.enable(this);
+    this.onDragStop();
     graphics.destroy();
 
   }
 
+
   onDragStop() {
-    this.sprite.x = this.x;
-    this.sprite.y = this.y;
-    this.updateOutput(0, 0);    
+    this.x = this.xStart;
+    this.y = this.yStart;
+    this.updateOutput(this.x, 0);    
   }
 
   onDragUpdate() {
-    // console.log('[' + Math.abs(this.x - this.sprite.x) + ',' + Math.abs(this.y - this.sprite.y) + ']');
+    // console.log('[' + Math.abs(this.x - this.x) + ',' + Math.abs(this.y - this.y) + ']');
+    this.x = Phaser.Math.clamp(this.x, this.xStart - this.game.width / 4, this.xStart + this.game.width / 4);
+    // this.y = this.yStart;
+    // this.sprite.y = Phaser.Math.clamp(this.sprite.y, this.sprite.y - this.circleSize, this.sprite.y + this.circleSize);
 
-    this.sprite.x = Phaser.Math.clamp(this.sprite.x, this.x - this.circleSize / 2, this.x + this.circleSize / 2);
-    this.sprite.y = Phaser.Math.clamp(this.sprite.y, this.y - this.circleSize, this.y + this.circleSize);
-
-
-    let angle = Math.atan2(this.y - this.sprite.y, this.x - this.sprite.x) * 180 / Math.PI;
-    this.updateOutput(this.x - this.sprite.x, this.y - this.sprite.y);
+    this.updateOutput(this.x);
 
   }
 

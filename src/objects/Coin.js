@@ -24,10 +24,10 @@ class Coin extends Phaser.Sprite {
 
     // this.sprite = game.add.sprite(x, y, graphics.generateTexture());
     this.anchor.setTo(0.5, 0.5);
-    this.scale.setTo(0.1, 0.1);
+    this.scale.setTo(1.1, 1.1);
 
-    // this.loadTexture(graphics.generateTexture())
-    this.loadTexture('emoji1');
+    this.loadTexture(graphics.generateTexture())
+
     this.game.physics.arcade.enable(this);
 
     // this.game.add.sprite(x, y, graphics.generateTexture());
@@ -45,21 +45,18 @@ class Coin extends Phaser.Sprite {
   hitSprite(s1, s2) {
     this.stopChanging = true;
 
-        // console.log('collisionHandler')
-    this.loadTexture('emoji7');
-
-    setTimeout(() => this.kill(), 100);
+    this.kill();
     s2.body.velocity.y = 0;
 
     if ("vibrate" in window) {
       window.navigator.vibrate(10);
     }
 
-    // if (this.x < this.game.width / 2) {
-    //   this.game.sound.play('bass' + this.getX(this.x));
-    // } else {
-    //   this.game.sound.play('treb' + this.getX(this.x - this.game.width / 2));
-    // }
+    if (this.x < this.game.width / 2) {
+      this.game.sound.play('bass' + this.getX(this.x));
+    } else {
+      this.game.sound.play('treb' + this.getX(this.x - this.game.width / 2));
+    }
 
   }
 
@@ -87,24 +84,8 @@ class Coin extends Phaser.Sprite {
     return true;
   }
 
-  changeEmoji() {
-    if (this.stopChanging) return;
-
-    if (this.y > this.game.height / 2) {
-      this.loadTexture('emoji6');
-    } else if (this.y > this.game.height / 3) {
-      this.loadTexture('emoji3');
-    // } else if (this.y > this.game.height / 4) {
-    //   this.loadTexture('emoji4');
-    // } else if (this.y > this.game.height / 5) {
-    //   this.loadTexture('emoji3');
-    } else if (this.y > this.game.height / 6) {
-      this.loadTexture('emoji2');
-    }
-  }
 
   update() {
-    this.changeEmoji();
   }
 
 }

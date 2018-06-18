@@ -63,14 +63,23 @@ class Level1 extends Phaser.State {
     ];
 
     this.players = [
-      new Player(this.game, [this.midX / 2, midY]),
-      new Player(this.game, [this.midX / 2 * 3, midY]),
+      new Player(this.game, Math.round(this.midX / 2), midY),
+      new Player(this.game, Math.round(this.midX / 2 * 3), midY),
     ]
 
+    let players = this.game.add.group();
+    players.add(this.players[0]);
+    players.add(this.players[1]);
+
     this.controls = [
-      new Controls(this.game, this.joysticks[0], this.players[0].update),
-      new Controls(this.game, this.joysticks[1], this.players[1].update),
+      new Controls(this.game, this.joysticks[0], (x, y) => this.players[0].updatePos(x, y)),
+      new Controls(this.game, this.joysticks[1], (x, y) => this.players[1].updatePos(x, y)),
     ];
+
+
+    let controls = this.game.add.group();
+    controls.add(this.controls[0]);
+    controls.add(this.controls[1]);
 
 
 
@@ -184,7 +193,7 @@ this.bombs2 = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
 
   update() {
     this.game.physics.arcade.collide(
-      this.players[0].getSprite(),
+      this.players[0],
       this.group,
       this.collisionHandler,
       this.processHandler,
@@ -192,7 +201,7 @@ this.bombs2 = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
     );
 
     this.game.physics.arcade.collide(
-      this.players[1].getSprite(),
+      this.players[1],
       this.group,
       this.collisionHandler,
       this.processHandler,
