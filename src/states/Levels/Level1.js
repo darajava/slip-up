@@ -99,8 +99,10 @@ class Level1 extends Phaser.State {
     for (let i = 0; i < this.level.length; i++) {
       let item = this.level[i];
 
-      let gridWidth = (this.game.width / 19);
+      let gridWidth = (this.game.width / 23);
 
+
+      item.column = parseInt(item.x);
       item.x = Math.round(parseInt(item.x) * gridWidth + gridWidth / 2);
       item.y = parseInt(item.y) * -spacing;
     }
@@ -141,7 +143,7 @@ class Level1 extends Phaser.State {
     // if (this.group.children.length > 2) return;
 
     if (item.type === 'x') {
-      this.group.add(new Coin(this.game, item.x, item.y, this.plusPixels))
+      this.group.add(new Coin(this.game, item.x, item.y, this.plusPixels, item.column))
     } else if (item.type === 'c') {
       this.group.add(new Bomb(this.game, item.x, item.y, this.plusPixels))
     }
@@ -244,10 +246,10 @@ class Level1 extends Phaser.State {
 
       // Check if it's not a bomb
       if (this.group.children[i].alive  && this.group.children[i].isCoin() && this.group.children[i].outOfBounds()) {
-        this.game.state.start("Level1");
-        this.game.sound.play('lose');
+        // this.game.state.start("Level1");
+        // this.game.sound.play('lose');
 
-        this.group.children[i].kill();
+        // this.group.children[i].kill();
         // this.collisionHandler();
       }
 

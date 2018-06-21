@@ -1,14 +1,14 @@
 class Coin extends Phaser.Sprite {
 
-  constructor(game, x, y, offset){
+  constructor(game, x, y, offset, column){
     super(game, x, y + offset)
-    
 
+    this.column = column;
     this.game = game;
     this.initialX = x;
     this.initialY = y;
 
-    let circleSize = 30;
+    let circleSize = (this.game.width / 23);
     let borderSize = 30;
 
     let graphics = game.add.graphics(0, 0);
@@ -19,7 +19,7 @@ class Coin extends Phaser.Sprite {
     }
 
     graphics.beginFill(col, 1);
-    graphics.drawCircle(x, y, circleSize + borderSize);
+    graphics.drawCircle(x, y, circleSize);
     // graphics.beginFill(col, 1);
     // graphics.drawCircle(x, y, circleSize);
 
@@ -54,15 +54,15 @@ class Coin extends Phaser.Sprite {
     }
 
     if (this.x < this.game.width / 2) {
-      this.game.sound.play('bass' + this.getX(this.x));
+      this.game.sound.play('bass' + (this.column % 11 + 1));
     } else {
-      this.game.sound.play('treb' + this.getX(this.x - this.game.width / 2));
+      this.game.sound.play('treb' + (this.column % 11 + 1));
     }
 
   }
 
   getX(x) {
-    return (Math.round((x - 27) / (this.game.width / 2 / 9)) % 6) + 1;
+    return this.x / (this.game.width / 23)
   }
 
   getSprite() {

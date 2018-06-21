@@ -1,3 +1,3 @@
 for i in *.wav; do 
-ffmpeg -i "$i" $(basename "${i/.flac}").mp3
+ffmpeg -i "$i" $(basename "${i/.wav}").mp3
 done

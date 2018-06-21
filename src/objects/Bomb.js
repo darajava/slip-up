@@ -7,13 +7,12 @@ class Bomb extends Phaser.Sprite {
     this.initialX = x;
     this.initialY = y;
 
-    let circleSize = 20;
-    let borderSize = 30;
+    let circleSize = (this.game.width / 23 / 2);
 
     let graphics = game.add.graphics(0, 0);
 
     graphics.beginFill(0xbb0000, 1);
-    graphics.drawCircle(x, y, circleSize + borderSize);
+    graphics.drawCircle(x, y, circleSize);
     // graphics.beginFill(0xff0000, 1);
     // graphics.drawCircle(x, y, circleSize);
 
