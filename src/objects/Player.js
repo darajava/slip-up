@@ -9,7 +9,7 @@ class Player extends Phaser.Sprite {
     this.xStart = x;
     this.yStart = y;
 
-    let circleSize = 20;
+    this.circleSize = 50;
     let borderSize = 20;
 
     let graphics = game.add.graphics(0, 0);
@@ -20,7 +20,7 @@ class Player extends Phaser.Sprite {
     }
 
     graphics.beginFill(col, 1);
-    graphics.drawCircle(x, y, circleSize + borderSize);
+    graphics.drawCircle(x, y, this.circleSize);
     // graphics.beginFill(0x818D92, 1);
     // graphics.drawCircle(xy[0], xy[1], circleSize);
 
@@ -40,23 +40,11 @@ class Player extends Phaser.Sprite {
   }
 
   updatePos(x, y) {
-    //console.log(this)
-    // console.log(angle);
-    // console.log(velocity)
-
-    // this.angle = angle;
-
-    // this.body.moves = false;
-
-    // x = x / 2;
 
     console.log(x);
-
-    this.x = x;//Phaser.Math.clamp(this.x - x, this.xStart - this.game.width / 4, this.xStart + this.game.width / 4);
-    // this.y = Phaser.Math.clamp(this.y - (y ) ^ 0.5, 0, this.game.height / 3 * 2);
-    // this.body.angularVelocity = 0;
-
-    // this.game.physics.arcade.velocityFromAngle(this.angle, this.body.velocity, this.body.velocity);
+    let upperLimit = this.xStart + this.game.width / 4 - this.circleSize / 2;
+    let lowerLimit = this.xStart - this.game.width / 4 + this.circleSize / 2;
+    this.x = Phaser.Math.clamp(x, lowerLimit, upperLimit);
   }
 
 
