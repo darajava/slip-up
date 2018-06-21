@@ -114,6 +114,12 @@ class Level1 extends Phaser.State {
         !this.groupContains(this.level[i])
       ) {
         this.addItem(this.level[i]);
+      } else if (
+        this.onScreen(this.level[i]) 
+        &&
+        this.groupContains(this.level[i])
+      ) {
+        this.removeItem(this.level[i]);
       }
     }
   }
@@ -138,6 +144,15 @@ class Level1 extends Phaser.State {
       this.group.add(new Coin(this.game, item.x, item.y, this.plusPixels))
     } else if (item.type === 'c') {
       this.group.add(new Bomb(this.game, item.x, item.y, this.plusPixels))
+    }
+  }
+
+  removeItem(item) {
+    for (let i = 0; i < this.group.children.length; i++) {
+      if (this.group.children[i].initialX === item.x && this.group.children[i].initialY === item.y) {
+        this.group.remove(this.group.children[i]);
+        this.group.children[i].destroy();
+      }
     }
   }
 
