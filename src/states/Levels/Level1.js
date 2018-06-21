@@ -150,8 +150,9 @@ class Level1 extends Phaser.State {
   removeItem(item) {
     for (let i = 0; i < this.group.children.length; i++) {
       if (this.group.children[i].initialX === item.x && this.group.children[i].initialY === item.y) {
+        let x = this.group.children[i];
         this.group.remove(this.group.children[i]);
-        this.group.children[i].destroy();
+        x.destroy();
       }
     }
   }
