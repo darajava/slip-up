@@ -115,7 +115,7 @@ class Level1 extends Phaser.State {
       ) {
         this.addItem(this.level[i]);
       } else if (
-        this.onScreen(this.level[i]) 
+        !this.onScreen(this.level[i]) 
         &&
         this.groupContains(this.level[i])
       ) {
