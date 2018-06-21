@@ -94,7 +94,7 @@ class Level1 extends Phaser.State {
   }
 
   cleanLevel() {
-    let spacing = 100;
+    let spacing = 50;
 
     for (let i = 0; i < this.level.length; i++) {
       let item = this.level[i];

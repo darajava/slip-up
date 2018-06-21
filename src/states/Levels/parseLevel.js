@@ -8,13 +8,15 @@ function readLines(input, func) {
 
   input.on('data', function(data) {
     remaining += data;
-    let totalLines = ((remaining.match(/\n/g) || []).length);
+    let totalLines = ((remaining.match(/\n[^/]/g) || []).length);
     index = remaining.indexOf('\n');
     while (index > -1) {
       var line = remaining.substring(0, index);
       remaining = remaining.substring(index + 1);
       index = remaining.indexOf('\n');
-      func(line, lineCount++, totalLines);
+      if (!func(line, lineCount++, totalLines)) {
+        lineCount--;
+      }
     }
   });
 
@@ -40,7 +42,7 @@ function valuesOf(str, char) {
 }
 
 function func(data, index, totalLines) {
-  if (data.indexOf('//') !== -1) return;
+  if (data.indexOf('//') !== -1) return false;
   console.log(data, index);
   for (let c = 0; c < data.length; c++) {
     if (data[c] === '-' || data[c] === '|') continue;
@@ -51,6 +53,8 @@ function func(data, index, totalLines) {
       type: data[c],
     });
   }
+
+  return true;
 }
 
 var input = fs.createReadStream('levelmap');
