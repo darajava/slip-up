@@ -3,28 +3,29 @@ var fs = require('fs');
 function readLines(input, func) {
   var remaining = '';
 
+  var index;
+  var lineCount = 0;
+
   input.on('data', function(data) {
     remaining += data;
-    var index = remaining.indexOf('\n');
+    let totalLines = ((remaining.match(/\n/g) || []).length);
+    index = remaining.indexOf('\n');
     while (index > -1) {
       var line = remaining.substring(0, index);
       remaining = remaining.substring(index + 1);
-      func(line);
       index = remaining.indexOf('\n');
+      func(line, lineCount++, totalLines);
     }
   });
 
   input.on('end', function() {
-    if (remaining.length > 0) {
-      func(remaining);
-    }
+    // if (remaining.length > 0) {
+    //   func(remaining, index);
+    // }
   });
 }
 
-let coin1 = [];
-let coin2 = [];
-let bomb1 = [];
-let bomb2 = [];
+let items = [];
 
 function valuesOf(str, char) {
   let result = [];
@@ -38,20 +39,24 @@ function valuesOf(str, char) {
   return result;
 }
 
-function func(data) {
+function func(data, index, totalLines) {
   if (data.indexOf('//') !== -1) return;
-  
-  coin1.push(valuesOf(data.split('|')[0], 'x'));
-  coin2.push(valuesOf(data.split('|')[1], 'x'));
-  bomb1.push(valuesOf(data.split('|')[0], 'c'));
-  bomb2.push(valuesOf(data.split('|')[1], 'c'));
+  console.log(data, index);
+  for (let c = 0; c < data.length; c++) {
+    if (data[c] === '-' || data[c] === '|') continue;
+
+    items.push({
+      x: `${c}`,
+      y: `${totalLines - index}`,
+      type: data[c],
+    });
+  }
 }
 
 var input = fs.createReadStream('levelmap');
+
 readLines(input, func);
+
 setTimeout(() => {
-  console.log('this.coins1 = ' + JSON.stringify(coin1.reverse()) + ';');  
-  console.log('this.coins2 = ' + JSON.stringify(coin2.reverse()) + ';');  
-  console.log('this.bombs1 = ' + JSON.stringify(bomb1.reverse()) + ';');  
-  console.log('this.bombs2 = ' + JSON.stringify(bomb2.reverse()) + ';');  
+  fs.writeFileSync('./level.json', JSON.stringify(items.reverse()));
 }, 500);

@@ -1,11 +1,11 @@
 class Bomb extends Phaser.Sprite {
 
-  constructor(game, x, y, player) {
-    super(game, x, y)
+  constructor(game, x, y, offset) {
+    super(game, x, y + offset)
 
     this.game = game;
-    // this.x = x;
-    // this.y = y;
+    this.initialX = x;
+    this.initialY = y;
 
     let circleSize = 20;
     let borderSize = 30;
