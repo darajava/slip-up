@@ -9,7 +9,7 @@ class Player extends Phaser.Sprite {
     this.xStart = x;
     this.yStart = y;
 
-    this.circleSize = (this.game.width / 2);//3) * 1.5;
+    this.circleSize = (this.game.width / 23) * 1.5;
     let borderSize = 20;
 
     let graphics = game.add.graphics(0, 0);

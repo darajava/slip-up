@@ -39,8 +39,8 @@ class Bomb extends Phaser.Sprite {
     // console.log(s2)
     // console.log('collisionHandler')
     
-    // s2.kill();
-    // s2.body.velocity.y = 0;
+    s2.kill();
+    s2.body.velocity.y = 0;
   }
 
   getSprite() {
