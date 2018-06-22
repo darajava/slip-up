@@ -55,8 +55,10 @@ class Coin extends Phaser.Sprite {
 
     if (this.x < this.game.width / 2) {
       this.game.sound.play('bass' + (this.column % 11 + 1));
+      console.log('bass' + (this.column % 11 + 1))
     } else {
-      this.game.sound.play('treb' + (this.column % 11 + 1));
+      this.game.sound.play('treb' + (((this.column - 1) % 11 + 1) ));
+      console.log('treb' + (((this.column - 1) % 11 + 1) ))
     }
 
   }

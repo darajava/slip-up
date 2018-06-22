@@ -7,7 +7,7 @@ class Bomb extends Phaser.Sprite {
     this.initialX = x;
     this.initialY = y;
 
-    let circleSize = (this.game.width / 23 / 2);
+    let circleSize = (this.game.width / 23 / 1.3);
 
     let graphics = game.add.graphics(0, 0);
 
@@ -34,12 +34,13 @@ class Bomb extends Phaser.Sprite {
   }
 
   hitSprite(s1, s2) {
-    console.log('hit')
-    console.log(s1)
-    console.log(s2)
-        // console.log('collisionHandler')
-    s2.kill();
-    s2.body.velocity.y = 0;
+    // console.log('hit')
+    // console.log(s1)
+    // console.log(s2)
+    // console.log('collisionHandler')
+    
+    // s2.kill();
+    // s2.body.velocity.y = 0;
   }
 
   getSprite() {

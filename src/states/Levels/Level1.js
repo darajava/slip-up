@@ -18,7 +18,7 @@ class Level1 extends Phaser.State {
     this.game.stage.backgroundColor = "#fff";
 
 
-    this.level = level;
+    this.level = JSON.parse(JSON.stringify(level));
 
 
     this.drawRect(0, 0, this.game.width / 2, this.game.height, 0xB9A394, 0.5);
