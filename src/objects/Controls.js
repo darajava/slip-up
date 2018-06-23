@@ -52,8 +52,8 @@ class Controls extends Phaser.Sprite {
   }
 
   onDragUpdate() {
-    let upperLimit = this.xStart + this.game.width / 4 - this.circleSize;
-    let lowerLimit = this.xStart - this.game.width / 4 + this.circleSize;
+    let upperLimit = this.xStart + this.game.width / 4 - this.circleSize * 0.75;
+    let lowerLimit = this.xStart - this.game.width / 4 + this.circleSize * 0.75;
 
     this.x = Phaser.Math.clamp(this.x, lowerLimit, upperLimit);
 
