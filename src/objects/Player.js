@@ -9,7 +9,7 @@ class Player extends Phaser.Sprite {
     this.xStart = x;
     this.yStart = y;
 
-    this.circleSize = (this.game.width / 23) * 1.5;
+    this.circleSize = (this.game.width / 23);
     let borderSize = 20;
 
     let graphics = game.add.graphics(0, 0);
@@ -19,11 +19,8 @@ class Player extends Phaser.Sprite {
       col = 0x586A6A;
     }
 
-    graphics.beginFill(col, 1);
+    graphics.lineStyle(8, col, 1);
     graphics.drawCircle(x, y, this.circleSize);
-    // graphics.beginFill(0x818D92, 1);
-    // graphics.drawCircle(xy[0], xy[1], circleSize);
-
 
     this.loadTexture(graphics.generateTexture())
 
