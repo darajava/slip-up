@@ -9,7 +9,6 @@ class Coin extends Phaser.Sprite {
     this.initialY = y;
 
     this.circleSize = (this.game.width / 23);
-    let borderSize = 30;
 
     let graphics = game.add.graphics(0, 0);
 
