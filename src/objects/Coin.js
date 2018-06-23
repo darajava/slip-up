@@ -8,7 +8,7 @@ class Coin extends Phaser.Sprite {
     this.initialX = x;
     this.initialY = y;
 
-    let circleSize = (this.game.width / 23);
+    this.circleSize = (this.game.width / 23);
     let borderSize = 30;
 
     let graphics = game.add.graphics(0, 0);
@@ -19,7 +19,7 @@ class Coin extends Phaser.Sprite {
     }
 
     graphics.beginFill(col, 1);
-    graphics.drawCircle(x, y, circleSize);
+    graphics.drawCircle(x, y, this.circleSize);
     // graphics.beginFill(col, 1);
     // graphics.drawCircle(x, y, circleSize);
 
@@ -53,13 +53,13 @@ class Coin extends Phaser.Sprite {
       window.navigator.vibrate(10);
     }
 
-    if (this.x < this.game.width / 2) {
-      this.game.sound.play('bass' + (this.column % 11 + 1));
-      console.log('bass' + (this.column % 11 + 1))
-    } else {
-      this.game.sound.play('treb' + (((this.column - 1) % 11 + 1) ));
-      console.log('treb' + (((this.column - 1) % 11 + 1) ))
-    }
+    // if (this.x < this.game.width / 2) {
+    //   this.game.sound.play('bass' + (this.column % 11 + 1));
+    //   console.log('bass' + (this.column % 11 + 1))
+    // } else {
+    //   this.game.sound.play('treb' + (((this.column - 1) % 11 + 1) ));
+    //   console.log('treb' + (((this.column - 1) % 11 + 1) ))
+    // }
 
   }
 
@@ -89,6 +89,28 @@ class Coin extends Phaser.Sprite {
 
 
   update() {
+    if (!this.playedSound && this.body.position.y > this.game.height / 2) {
+      if (this.x < this.game.width / 2) {
+        this.game.sound.play('bass' + (this.column % 11 + 1));
+        console.log('bass' + (this.column % 11 + 1))
+      } else {
+        this.game.sound.play('treb' + (((this.column - 1) % 11 + 1) ));
+        console.log('treb' + (((this.column - 1) % 11 + 1) ))
+      }
+      this.playedSound = true;
+    }
+
+    if (this.alive && !this.playedLose && this.body.position.y > this.game.height / 2 + this.circleSize) {
+      this.game.sound.play('treb11');
+      this.game.sound.play('treb10');
+      this.game.sound.play('treb9');
+      this.game.sound.play('bass9');
+      // this.game.sound.play('bass4');
+      this.playedLose = true;
+      this.kill();
+      this.game.state.start("Level1");
+
+    }
   }
 
 }

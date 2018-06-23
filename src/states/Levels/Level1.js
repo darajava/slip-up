@@ -243,25 +243,8 @@ class Level1 extends Phaser.State {
     let speed = 5;
 
     for (let i = 0; i < this.group.children.length; i++) {
-
-      // Check if it's not a bomb
-      if (this.group.children[i].alive  && this.group.children[i].isCoin() && this.group.children[i].outOfBounds()) {
-        this.game.sound.play('lose');
-
-        this.group.children[i].kill();
-        this.collisionHandler();
-        this.game.state.start("Level1");
-      }
-
-      if (!this.group.children[i].alive) {
-        let spriteToRemove = this.group.children[i];
-        // this.group.remove(spriteToRemove);
-        spriteToRemove.kill();
-      }
-
       if (this.group.children[i])
         this.group.children[i].body.position.y += speed;
-
     }
     
     this.plusPixels += speed;
