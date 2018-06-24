@@ -21,6 +21,9 @@ class Level1 extends Phaser.State {
     this.level = JSON.parse(JSON.stringify(level));
 
 
+    this.speed = 4.5;
+
+
     this.drawRect(0, 0, this.game.width / 2, this.game.height, 0xB9A394, 0.5);
     this.drawRect(this.game.width / 2, 0, this.game.width / 2, this.game.height, 0x586A6A, 0.5);
 
@@ -45,13 +48,6 @@ class Level1 extends Phaser.State {
     let bottomY = window.innerHeight / 3 * 2;
     this.plusPixels = 0;
  
-    // this.background = this.game.add.tileSprite(0, 0, 600, 100, 'road');
-    // this.background.height = bottomY;
-    // this.background.width = 600;
-
-    // this.background.scale.x = (this.game.width / this.background.width);
-    this.time = new Date();
-
     this.line1 = new Phaser.Line(this.midX, 0, this.midX, window.innerHeight);
     this.line2 = new Phaser.Line(0, bottomY, window.innerWidth, bottomY);
 
@@ -94,7 +90,7 @@ class Level1 extends Phaser.State {
   }
 
   cleanLevel() {
-    let spacing = 50;
+    let spacing = 25;
 
     for (let i = 0; i < this.level.length; i++) {
       let item = this.level[i];
@@ -108,19 +104,11 @@ class Level1 extends Phaser.State {
     }
   }
 
-  addToGroup() {
+  refreshGroup() {
     for (let i = 0; i < this.level.length; i++) {
-      if (
-        this.onScreen(this.level[i]) 
-        &&
-        !this.groupContains(this.level[i])
-      ) {
+      if (this.onScreen(this.level[i]) && !this.groupContains(this.level[i])) {
         this.addItem(this.level[i]);
-      } else if (
-        !this.onScreen(this.level[i]) 
-        &&
-        this.groupContains(this.level[i])
-      ) {
+      } else if (!this.onScreen(this.level[i]) && this.groupContains(this.level[i])) {
         this.removeItem(this.level[i]);
       }
     }
@@ -138,10 +126,6 @@ class Level1 extends Phaser.State {
 
 
   addItem(item) {
-    // console.log(item);
-
-    // if (this.group.children.length > 2) return;
-
     if (item.type === 'x') {
       this.group.add(new Coin(this.game, item.x, item.y, this.plusPixels, item.column))
     } else if (item.type === 'c') {
@@ -159,13 +143,16 @@ class Level1 extends Phaser.State {
     }
   }
 
-  onScreen(item) {
-    // console.log(item);
-    // console.log(this.plusPixels)
-    // console.log(item.y > this.plusPixels);
 
-    // if (Math.random() > 0.999) hello;
-    // return true;
+  clearGroup() {
+    for (let i = 0; i < this.group.children.length; i++) {
+      let x = this.group.children[i];
+      this.group.remove(this.group.children[i]);
+      x.destroy();
+    }
+  }
+
+  onScreen(item) {
     return item.y + this.plusPixels > -100 && item.y + this.plusPixels < this.game.height; 
   }
 
@@ -191,14 +178,6 @@ class Level1 extends Phaser.State {
     return textObject;
   }
 
-  drawLine(line) {
-    let graphics = this.game.add.graphics(0,0);
-    //var graphics=game.add.graphics(line.start.x,line.start.y);//if you have a static line
-    graphics.lineStyle(10, 0x000000, 1);
-    graphics.moveTo(line.start.x,line.start.y);//moving position of graphic if you draw mulitple lines
-    graphics.lineTo(line.end.x,line.end.y);
-    graphics.endFill();
-  }
 
   drawRect(x, y, w, h, col, opacity) {
     let graphics = this.game.add.graphics(); // adds to the world stage
@@ -227,37 +206,14 @@ class Level1 extends Phaser.State {
     );
 
 
-    this.addToGroup();
-
-
-
-
-    let loopCount = 0;
-    while (this.getCoinAmount() < this.limit) {
-      this.addNewDot();
-      if (loopCount++ > 100) {
-        break;
-      }
-    }
-
-    let speed = 5;
+    this.refreshGroup();
 
     for (let i = 0; i < this.group.children.length; i++) {
       if (this.group.children[i])
-        this.group.children[i].body.position.y += speed;
+        this.group.children[i].body.position.y += this.speed;
     }
     
-    this.plusPixels += speed;
-  }
-
-  getCoinAmount() {
-    let coinAmount = 0;
-
-    for (let i = 0; i < this.group.children.length; i++) {
-      if (this.group.children[i].isCoin()) coinAmount++;
-    }
-
-    return coinAmount;
+    this.plusPixels += this.speed;
   }
 
   processHandler(player, coin) {
@@ -265,10 +221,6 @@ class Level1 extends Phaser.State {
   }
 
   collisionHandler(player, coin) {
-    // console.log('collisionHandler')
-    // coin.kill();
-    // player.body.velocity.y = 0;
-    // console.log('len', this.group.length);
 
     this.score++;
     if (parseInt(localStorage.getItem('highscore')) < this.score) {
@@ -278,32 +230,28 @@ class Level1 extends Phaser.State {
     this.scoreText.text = this.score;
     this.hiScoreText.text = localStorage.getItem('highscore');
 
-  }
-
-  addNewDot() {
-    // this.addAgain = !this.addAgain
-
-    // if (this.addAgain) {
-    {
-      let startingPoint = this.lastCoinGenerated1;
-
-      if (startingPoint < this.coins1.length) 
-        do {
-            this.addCoinRow(startingPoint, this.coins1[startingPoint]);
-        } while(typeof this.coins1[startingPoint] !== 'undefined' && this.coins1[startingPoint++].length === 0)
-
-      this.lastCoinGenerated1 = startingPoint;
-
-      let startingPoint2 = this.lastCoinGenerated2;
-      if (startingPoint2 < this.coins2.length) 
-        do {
-            this.addCoinRow(startingPoint2, this.coins2[startingPoint2], true);
-        } while(typeof this.coins2[startingPoint2] !== 'undefined' && this.coins2[startingPoint2++].length === 0)
-
-      this.lastCoinGenerated2 = startingPoint2;
-
+    if (this.score !== 0 && this.score % this.countCoins() === 0) {
+      this.plusPixels = 0;
+      this.speed++;
+      this.clearGroup();
     }
+
   }
+
+  countCoins() {
+    // console.log(this.level);
+    // return this.level.length;
+    let result = 0;
+
+    for (let i = 0; i < level.length; i++) {
+      if (level[i].type === 'x') {
+        result++;
+      }
+    }
+
+    return result;
+  }
+
 
 }
 

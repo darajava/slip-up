@@ -100,13 +100,17 @@ class Coin extends Phaser.Sprite {
     }
 
     if (this.alive && !this.playedLose && this.body.position.y > this.game.height / 2 + this.circleSize) {
+      // for (let i = 0; i < 5; i++) {
+      //   this.game.sound.play((Math.random() > 0.5 ? 'treb' : 'bass') + Math.round(Math.random() * 11 + 1));
+
+      // }
       this.game.sound.play('treb11');
       this.game.sound.play('treb10');
       this.game.sound.play('treb9');
-      this.game.sound.play('bass9');
-      // this.game.sound.play('bass4');
+      this.game.sound.play('bass5');
+      this.game.sound.play('bass4');
       this.playedLose = true;
-      this.kill();
+      // this.kill();
       this.game.state.start("Level1");
 
     }

@@ -42,7 +42,9 @@ function valuesOf(str, char) {
 }
 
 function func(data, index, totalLines) {
-  if (data.indexOf('//') !== -1) return false;
+  data = data.trim();
+  
+  if (data.indexOf('/') !== -1) return false;
   console.log(data, index);
   for (let c = 0; c < data.length; c++) {
     if (data[c] === '-' || data[c] === '|') continue;
