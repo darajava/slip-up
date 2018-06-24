@@ -88,7 +88,8 @@ class Coin extends Phaser.Sprite {
 
 
   update() {
-    if (!this.playedSound && this.body.position.y > this.game.height / 2) {
+    let playerHeight = (this.game.width / 23) * 1.5;
+    if (!this.playedSound && this.body.position.y > this.game.height / 2 - playerHeight) {
       if (this.x < this.game.width / 2) {
         this.game.sound.play('bass' + (this.column % 11 + 1));
         console.log('bass' + (this.column % 11 + 1))

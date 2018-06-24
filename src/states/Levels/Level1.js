@@ -233,8 +233,8 @@ class Level1 extends Phaser.State {
     this.hiScoreText.text = localStorage.getItem('highscore');
 
     if (this.score !== 0 && this.score % this.countCoins() === 0) {
-      this.plusPixels = 0;
       this.speed++;
+      this.plusPixels = -100 * this.speed;
       this.clearGroup();
     }
 
