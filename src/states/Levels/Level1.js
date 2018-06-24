@@ -19,7 +19,7 @@ class Level1 extends Phaser.State {
 
 
     this.level = JSON.parse(JSON.stringify(level));
-
+    this.frame = 0;
 
     this.speed = 4.5;
 
@@ -153,7 +153,7 @@ class Level1 extends Phaser.State {
   }
 
   onScreen(item) {
-    return item.y + this.plusPixels > -100 && item.y + this.plusPixels < this.game.height; 
+    return item.y + this.plusPixels > -100 * this.speed && item.y + this.plusPixels < this.game.height; 
   }
 
   addText(text, colour, x, y, left, small) {
@@ -206,7 +206,9 @@ class Level1 extends Phaser.State {
     );
 
 
-    this.refreshGroup();
+    if (this.frame++ % 100 === 0) {
+      this.refreshGroup();
+    }
 
     for (let i = 0; i < this.group.children.length; i++) {
       if (this.group.children[i])
